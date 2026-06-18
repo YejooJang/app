@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "mkdir -p src public && cp App.js src/index.js && echo '<div id=\"root\"></div>' > public/index.html && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
