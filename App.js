@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { db } from './firebase';
 import { ref, set, onValue, update } from 'firebase/database';
 
@@ -75,103 +74,103 @@ export default function App() {
 
   if (loading) {
     return (
-      <View style={styles.center}>
-        <Text style={styles.loadingText}>사용자 성향 및 옷장 데이터를 동기화 중입니다...</Text>
-      </View>
+      <div style={styles.center}>
+        <p style={styles.loadingText}>사용자 성향 및 옷장 데이터를 동기화 중입니다...</p>
+      </div>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <div style={styles.container}>
+      <div style={styles.scrollContainer}>
         
-        <View style={styles.header}>
-          <Text style={styles.locationText}>📍 현재 위치: 부산광역시 남구</Text>
-          <Text style={styles.weatherText}>기상청 기준: {weather.temp}°C ({weather.status})</Text>
-        </View>
+        <div style={styles.header}>
+          <h2 style={styles.locationText}>📍 현재 위치: 부산광역시 남구</h2>
+          <p style={styles.weatherText}>기상청 기준: {weather.temp}°C ({weather.status})</p>
+        </div>
 
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>나의 기본 체질 및 스타일 설정</Text>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity 
-              style={[styles.btn, constitution === 'hot' && styles.activeBtn]} 
-              onPress={() => handleSaveSetup('hot', '#스트릿')}
+        <div style={styles.card}>
+          <h3 style={styles.cardTitle}>나의 기본 체질 및 스타일 설정</h3>
+          <div style={styles.buttonRow}>
+            <button 
+              style={{...styles.btn, ...(constitution === 'hot' ? styles.activeBtn : {})}} 
+              onClick={() => handleSaveSetup('hot', '#스트릿')}
             >
-              <Text style={constitution === 'hot' ? styles.activeText : styles.btnText}>🔥 더위 많이 탐</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.btn, constitution === 'cold' && styles.activeBtn]} 
-              onPress={() => handleSaveSetup('cold', '#미니멀')}
+              <span style={constitution === 'hot' ? styles.activeText : styles.btnText}>🔥 더위 많이 탐</span>
+            </button>
+            <button 
+              style={{...styles.btn, ...(constitution === 'cold' ? styles.activeBtn : {})}} 
+              onClick={() => handleSaveSetup('cold', '#미니멀')}
             >
-              <Text style={constitution === 'cold' ? styles.activeText : styles.btnText}>❄️ 추위 많이 탐</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.subInfo}>현재 저장된 스타일: {selectedStyle}</Text>
-        </View>
+              <span style={constitution === 'cold' ? styles.activeText : styles.btnText}>❄️ 추위 많이 탐</span>
+            </button>
+          </div>
+          <p style={styles.subInfo}>현재 저장된 스타일: {selectedStyle}</p>
+        </div>
 
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>오늘 아침 나의 컨디션은?</Text>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity 
-              style={[styles.condBtn, dailyCondition === 'cool' && {backgroundColor: '#e0f2fe', borderColor: '#38bdf8'}]} 
-              onPress={() => handleConditionChange('cool')}
+        <div style={styles.card}>
+          <h3 style={styles.cardTitle}>오늘 아침 나의 컨디션은?</h3>
+          <div style={styles.buttonRow}>
+            <button 
+              style={{...styles.condBtn, ...(dailyCondition === 'cool' ? {backgroundColor: '#e0f2fe', borderColor: '#38bdf8'} : {})}} 
+              onClick={() => handleConditionChange('cool')}
             >
-              <Text style={[styles.condBtnText, dailyCondition === 'cool' && {color: '#0369a1'}]}>시원하게</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.condBtn, dailyCondition === 'normal' && {backgroundColor: '#f3f4f6', borderColor: '#d1d5db'}]} 
-              onPress={() => handleConditionChange('normal')}
+              <span style={{...styles.condBtnText, ...(dailyCondition === 'cool' ? {color: '#0369a1'} : {})}}>시원하게</span>
+            </button>
+            <button 
+              style={{...styles.condBtn, ...(dailyCondition === 'normal' ? {backgroundColor: '#f3f4f6', borderColor: '#d1d5db'} : {})}} 
+              onClick={() => handleConditionChange('normal')}
             >
-              <Text style={[styles.condBtnText, dailyCondition === 'normal' && {color: '#374151'}]}>보통</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.condBtn, dailyCondition === 'warm' && {backgroundColor: '#fee2e2', borderColor: '#f87171'}]} 
-              onPress={() => handleConditionChange('warm')}
+              <span style={{...styles.condBtnText, ...(dailyCondition === 'normal' ? {color: '#374151'} : {})}}>보통</span>
+            </button>
+            <button 
+              style={{...styles.condBtn, ...(dailyCondition === 'warm' ? {backgroundColor: '#fee2e2', borderColor: '#f87171'} : {})}} 
+              onClick={() => handleConditionChange('warm')}
             >
-              <Text style={[styles.condBtnText, dailyCondition === 'warm' && {color: '#b91c1c'}]}>따뜻하게</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+              <span style={{...styles.condBtnText, ...(dailyCondition === 'warm' ? {color: '#b91c1c'} : {})}}>따뜻하게</span>
+            </button>
+          </div>
+        </div>
 
-        <View style={[styles.card, styles.recommendCard]}>
-          <Text style={styles.recommendTitle}>✨ 오늘 날씨 추천 OOTD 착장</Text>
-          <Text style={styles.styleTag}>{selectedStyle} 스타일 조합 가이드</Text>
-          <View style={styles.clothesList}>
+        <div style={{...styles.card, ...styles.recommendCard}}>
+          <h3 style={styles.recommendTitle}>✨ 오늘 날씨 추천 OOTD 착장</h3>
+          <p style={styles.styleTag}>{selectedStyle} 스타일 조합 가이드</p>
+          <div style={styles.clothesList}>
             {recommendation.map((item, index) => (
-              <View key={index} style={styles.clothesItem}>
-                <Text style={styles.clothesText}>✔ {item}</Text>
-              </View>
+              <div key={index} style={styles.clothesItem}>
+                <p style={styles.clothesText}>✔ {item}</p>
+              </div>
             ))}
-          </View>
-        </View>
+          </div>
+        </div>
 
-      </ScrollView>
-    </SafeAreaView>
+      </div>
+    </div>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f9fafb' },
-  scrollContainer: { padding: 20, maxWidth: 600, marginHorizontal: 'auto', width: '100%' },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f9fafb' },
-  loadingText: { fontSize: 14, color: '#6b7280' },
-  header: { marginBottom: 20, alignItems: 'center', padding: 16, backgroundColor: '#ffffff', borderRadius: 16, borderWidth: 1, borderColor: '#f3f4f6' },
-  locationText: { fontSize: 16, fontWeight: '700', color: '#111827' },
-  weatherText: { fontSize: 13, color: '#4b5563', marginTop: 4 },
-  card: { backgroundColor: '#ffffff', padding: 18, borderRadius: 20, marginBottom: 16, borderStyle: 'solid', borderWidth: 1, borderColor: '#f3f4f6' },
-  cardTitle: { fontSize: 14, fontWeight: '700', marginBottom: 14, color: '#1f2937' },
-  buttonRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
-  btn: { flex: 1, paddingVertical: 12, borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12, alignItems: 'center', backgroundColor: '#ffffff' },
+const styles = {
+  container: { minHeight: '100vh', backgroundColor: '#f9fafb', width: '100%', fontFamily: 'sans-serif', boxSizing: 'border-box', padding: '20px' },
+  scrollContainer: { maxWidth: '600px', margin: '0 auto', width: '100%' },
+  center: { display: 'flex', minHeight: '100vh', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f9fafb' },
+  loadingText: { fontSize: '14px', color: '#6b7280' },
+  header: { marginBottom: '20px', textAlign: 'center', padding: '16px', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #f3f4f6', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' },
+  locationText: { fontSize: '16px', fontWeight: '700', color: '#111827', margin: 0 },
+  weatherText: { fontSize: '13px', color: '#4b5563', marginTop: '4px', marginBottom: 0 },
+  card: { backgroundColor: '#ffffff', padding: '18px', borderRadius: '20px', marginBottom: '16px', border: '1px solid #f3f4f6', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' },
+  cardTitle: { fontSize: '14px', fontWeight: '700', marginTop: 0, marginBottom: '14px', color: '#1f2937' },
+  buttonRow: { display: 'flex', justifyContent: 'space-between', gap: '8px' },
+  btn: { flex: 1, padding: '12px 0', border: '1px solid #e5e7eb', borderRadius: '12px', backgroundColor: '#ffffff', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' },
   activeBtn: { backgroundColor: '#1f2937', borderColor: '#1f2937' },
-  btnText: { color: '#4b5563', fontSize: 13, fontWeight: '500' },
-  activeText: { color: '#ffffff', fontSize: 13, fontWeight: '600' },
-  subInfo: { marginTop: 12, fontSize: 12, color: '#9ca3af', textAlign: 'right' },
-  condBtn: { flex: 1, paddingVertical: 14, borderRadius: 12, alignItems: 'center', backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#e5e7eb' },
-  condBtnText: { fontSize: 13, fontWeight: '700', color: '#9ca3af' },
+  btnText: { color: '#4b5563', fontSize: '13px', fontWeight: '500' },
+  activeText: { color: '#ffffff', fontSize: '13px', fontWeight: '600' },
+  subInfo: { marginTop: '12px', marginBottom: 0, fontSize: '12px', color: '#9ca3af', textAlign: 'right' },
+  condBtn: { flex: 1, padding: '14px 0', borderRadius: '12px', backgroundColor: '#ffffff', border: '1px solid #e5e7eb', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' },
+  condBtnText: { fontSize: '13px', fontWeight: '700', color: '#9ca3af' },
   recommendCard: { backgroundColor: '#0f172a', borderColor: '#0f172a' },
-  recommendTitle: { fontSize: 16, fontWeight: '800', color: '#ffffff', marginBottom: 4 },
-  styleTag: { color: '#38bdf8', fontSize: 12, marginBottom: 16, fontWeight: '600' },
-  clothesList: { gap: 8 },
-  clothesItem: { backgroundColor: 'rgba(255, 255, 255, 0.07)', padding: 14, borderRadius: 10 },
-  clothesText: { color: '#f8fafc', fontSize: 14, fontWeight: '600' }
-});
+  recommendTitle: { fontSize: '16px', fontWeight: '800', color: '#ffffff', marginTop: 0, marginBottom: '4px' },
+  styleTag: { color: '#38bdf8', fontSize: '12px', marginTop: 0, marginBottom: '16px', fontWeight: '600' },
+  clothesList: { display: 'flex', flexDirection: 'column', gap: '8px' },
+  clothesItem: { backgroundColor: 'rgba(255, 255, 255, 0.07)', padding: '14px', borderRadius: '10px' },
+  clothesText: { color: '#f8fafc', fontSize: '14px', fontWeight: '600', margin: 0 }
+};
