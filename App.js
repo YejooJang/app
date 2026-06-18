@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { db } from './firebase';
-import { ref, set, onValue, update } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, onValue, update } from 'firebase/database';
+
+// Vercel 환경 변수에서 파이어베이스 설정을 직접 안전하게 가져옵니다.
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: `https://${process.env.REACT_APP_FIREBASE_AUTH_DOMAIN?.split('.')[0]}-default-rtdb.firebaseio.com`,
+  projectId: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN?.split('.')[0],
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
+};
+
+// 파이어베이스 초기화
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getDatabase(firebaseApp);
 
 const USER_UID = "user_2026_demo";
 
